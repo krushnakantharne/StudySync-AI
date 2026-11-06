@@ -1,91 +1,274 @@
-# StudySync AI — Activity-Aware Prototype
+# StudySync AI — Activity-Aware Adaptive Study Scheduler
 
-**Start with [`STUDYSYNC_UPGRADE.md`](STUDYSYNC_UPGRADE.md) for the new browser activity tracker, modern UI changes, pairing steps, formula and honest test limitations.** The existing app and setup below have been retained.
+An AI-powered, activity-aware study scheduler built using the MERN stack. StudySync helps students plan their study sessions, monitor focus, track learning progress, and prepare for exams through personalized scheduling and adaptive learning algorithms.
 
-# AI-Powered Adaptive Study Scheduler (MERN)
+> **Project:** Final-Year B.Tech CSE Project  
+> **Technology:** MERN Stack + Gemini AI  
+> **Architecture:** Full-Stack Web Application
 
-Final-year project. A personalised weekly planner that learns from your study sessions, tracks your focus live,
-switches to spaced repetition near exams, and shows analytics.
+## Key Features
 
-**Stack:** MongoDB (Atlas) · Express · React (Vite) · Node.js · Socket.IO · Tailwind · Recharts · TensorFlow.js (BlazeFace)
+- **AI-Powered Exam Generation:** Generate subject-specific exam questions using Google Gemini AI.
+- **Adaptive Study Scheduling:** Create personalized weekly study plans based on priorities, learning progress, and exam dates.
+- **Browser Activity Tracking:** Monitor study-related browser activity through the companion browser extension.
+- **Live Focus Monitoring:** Track focus using activity signals and optional webcam-based face detection.
+- **Knowledge Tracking:** Estimate topic mastery using Bayesian Knowledge Tracing (BKT).
+- **Spaced Repetition:** Schedule revision sessions using adaptive review intervals.
+- **Reinforcement Learning:** Improve scheduling decisions using a Q-learning-based approach.
+- **Exam Mode:** Monitor topic readiness and identify knowledge gaps before examinations.
+- **Analytics Dashboard:** Visualize study time, productivity, focus trends, topic mastery, and learning progress.
+- **Real-Time Updates:** Use Socket.IO for live focus activity updates.
+- **Authentication:** Secure user authentication using JWT access and refresh tokens.
 
-## 1. Prerequisites
-- Node.js 20 or 22 (`node -v`)
-- A MongoDB Atlas cluster or running local MongoDB. For Atlas, create a database user, allow your current IP and copy the connection string.
-- Chrome (for webcam focus detection)
+## Technology Stack
 
-## 2. Run the corrected version
-The ZIP contains source and lockfiles. Install dependencies for your own operating system; do not copy the old `node_modules` or `dist` folders into it.
+| Layer | Technologies |
+|---|---|
+| Frontend | React.js, Vite, Tailwind CSS |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Authentication | JWT |
+| AI Integration | Google Gemini API |
+| Real-Time Communication | Socket.IO |
+| Machine Learning | BKT, Q-Learning, TensorFlow.js |
+| Browser Extension | JavaScript, Chrome Extension APIs |
+| Testing | Node.js Test Runner, Vitest |
+| Deployment | Render, Vercel |
 
-1. Extract the ZIP into a new folder and open a terminal in `study-scheduler-corrected`.
-2. Run `node setup.mjs`. It creates missing `.env` files with fresh, separate JWT secrets and preserves any existing `.env` files.
-3. Edit `server/.env`: set `MONGO_URI` to your database. Add `GEMINI_API_KEY` if you want AI-generated questions. Existing data in your database is not copied or deleted by setup.
-4. Install dependencies and start the API:
+## Project Structure
+
+```text
+StudySync_AI_Prototype/
+│
+├── client/                  # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.jsx
+│   │   ├── api.js
+│   │   └── focus.js
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/                  # Express backend
+│   ├── src/
+│   │   ├── config/
+│   │   ├── middleware/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── sockets/
+│   │   └── utils/
+│   ├── tests/
+│   └── package.json
+│
+├── extension/               # Browser activity extension
+│   ├── background.js
+│   ├── manifest.json
+│   ├── popup.html
+│   ├── popup.js
+│   └── popup.css
+│
+├── qa/                      # Browser QA scripts
+├── setup.mjs
+├── .gitignore
+└── README.md
+```
+
+## Prerequisites
+
+Install the following before running the project:
+
+- Node.js 20 or later
+- npm
+- MongoDB Atlas account or local MongoDB installation
+- Google Gemini API key (optional, for AI question generation)
+- Google Chrome
+
+## Installation and Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/krushnakantharne/StudySync-AI.git
+cd StudySync-AI
+```
+
+### 2. Generate Environment Files
+
+```bash
+node setup.mjs
+```
+
+This script creates missing environment files with separate JWT secrets while preserving existing environment files.
+
+### 3. Configure Backend Environment
+
+Open `server/.env` and configure:
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_access_token_secret
+JWT_REFRESH_SECRET=your_refresh_token_secret
+GEMINI_API_KEY=your_gemini_api_key
+CLIENT_URL=http://localhost:5173
+```
+
+Use your own credentials. Never commit actual secrets or `.env` files to GitHub.
+
+### 4. Install Backend Dependencies
 
 ```bash
 cd server
 npm ci
+```
+
+Start the backend:
+
+```bash
 npm run dev
 ```
 
-5. In a second terminal, start the frontend:
+### 5. Install Frontend Dependencies
+
+Open another terminal:
 
 ```bash
 cd client
 npm ci
+```
+
+Start the frontend:
+
+```bash
 npm run dev
 ```
 
-Open http://localhost:5173. Register an account, add subjects/topics and regenerate the plan.
-For optional demo data, use **Settings → Load demo data** (this replaces that account's study and exam data), or run `npm run seed` in `server` to create **demo@demo.com / demo1234**.
+### 6. Open the Application
 
-On Windows these commands work in PowerShell or Command Prompt; no `cp` command is required.
-Personal `.env` files, credentials, platform-specific dependencies and old builds are excluded from the corrected archive. If you use Atlas/Gemini, enter your own values in the new configuration file.
+Visit:
 
-Validation:
+http://localhost:5173
+
+Register a new account, add subjects and topics, and start using StudySync.
+
+## AI Integration — Google Gemini
+
+StudySync integrates Google's Gemini API to generate examination questions based on subjects and topics.
+
+To enable AI question generation:
+
+1. Obtain an API key from [Google AI Studio](https://aistudio.google.com/apikey).
+2. Add the key to `server/.env`.
+
+```env
+GEMINI_API_KEY=your_api_key
+```
+
+3. Restart the backend server.
+
+**Note:** AI question generation requires a valid API key and an available Gemini model. The application also includes fallback handling when AI generation is unavailable.
+
+## Core Algorithms
+
+| Algorithm | Purpose |
+|---|---|
+| Bayesian Knowledge Tracing (BKT) | Estimates student knowledge and topic mastery |
+| Priority Ranking | Calculates study priorities based on learning gaps, recency, difficulty, and exam proximity |
+| Adaptive Scheduling | Allocates study time and generates personalized schedules |
+| Q-Learning | Improves scheduling decisions based on learning outcomes |
+| Spaced Repetition | Determines suitable revision intervals |
+| Focus Fusion | Combines activity signals to estimate focus levels |
+
+## Browser Extension
+
+StudySync includes a companion Chrome extension for activity-aware study tracking.
+
+To load the extension:
+
+1. Open Chrome.
+2. Navigate to `chrome://extensions/`.
+3. Enable Developer Mode.
+4. Click **Load unpacked**.
+5. Select the project's `extension` folder.
+6. Follow the pairing instructions in the application.
+
+The extension supports consent-based activity tracking. Review the project's privacy settings before enabling tracking.
+
+## Testing and Validation
+
+Run backend tests:
+
 ```bash
-# after installing dependencies in both folders
 npm test --prefix server
+```
+
+Run frontend tests:
+
+```bash
 npm test --prefix client
+```
+
+Build the frontend:
+
+```bash
 npm run build --prefix client
 ```
 
-The backend suite includes algorithm and API regression tests. API tests use isolated model stubs; they do not connect to your database. See `BUG_FIXES.md` for verification limits.
+Additional browser QA scripts are available in the `qa/` directory.
 
-### Exam generation (Gemini)
-Weekly Exam questions are generated by Gemini from the subject's topics. Put your key in `server/.env`:
-`GEMINI_API_KEY=...` (free key: https://aistudio.google.com/apikey), then restart the server. Needs Node 20.3+.
-Questions are requested in parallel batches with a 40 s overall limit, so an exam takes roughly 5-15 s.
+## Deployment
 
-## 3. What maps to the report
-| Report feature | Where |
-|---|---|
-| Knowledge State Estimator (BKT) | `server/src/services/bkt.js` |
-| Priority Ranker (gap, recency, exam proximity, difficulty) | `services/priority.js` |
-| Time Allocator (90-min cap, breaks, daily goal) | `services/scheduler.js` (`buildSchedule`) |
-| RL agent (Q-learning, Table 3.7 rewards) | `services/rl.js` |
-| Exam Mode: `I = I x EF x P`, load balancer | `services/spacedRep.js` |
-| Focus fusion `0.40 K + 0.35 A + 0.25 W` | `services/focus.js`, `client/src/focus.js` |
-| Real-time focus channel (acknowledged batches of 10, retry-safe writes) | `sockets/focusSocket.js` |
-| 4 analytics views + productivity + confidence survey | `services/analytics.js`, `pages/Analytics.jsx` |
-| Nightly regeneration, 6-hourly RL snapshot | `jobs/cron.js` |
-| Privacy (camera and keystroke content never stored; optional consent-based extension records bare domains only) | `client/src/focus.js` |
+The application can be deployed using platforms such as:
 
-## 4. Demo script (3 minutes)
-1. Log in as the demo user. Dashboard: streak, focus, readiness bars, the "focus drops 2-4 PM" insight.
-2. Schedule: click **Regenerate plan**. Point out breaks, 90-min cap, spaced-review blocks for the Exam-Mode subject (orange).
-3. Study session: tick **Demo speed**, optionally the webcam, Start. Type, switch tabs, watch the focus ring change. Finish, rate 4, show mastery change and next review date.
-4. Exam Mode: review gaps per topic, readiness %.
-5. Analytics: time per subject (with the "behind on Computer Networks" alert), focus trend, mastery lines, readiness drill-down, productivity, confidence 4 to 8.
+**Backend: Render / Railway**
 
-## 5. Notes for the viva
-- **Stack change:** the report names FastAPI / PostgreSQL / Celery / Redis. This build uses Node / MongoDB / node-cron. The algorithms are identical. Mention it or update the report's implementation chapter.
-- **RL:** Q-learning with linear function approximation (6 features), epsilon-greedy, warm-started from the priority formula. In `auto` mode the agent takes over after 10 completed sessions.
-- **BKT observation:** the end-of-session self-rating (>= 3) is treated as "correct".
-- **Neglect penalty** in the reward = the most-neglected other subject's normalised recency.
-- Times display in the browser's timezone; the planner uses the timezone saved in Settings.
-- Limitations to state honestly: self-rated mastery, small-sample RL, webcam heuristic is head-pose based, no LMS/calendar integration.
+Configure the required environment variables:
 
-## 6. Deploy (optional)
-API on Render/Railway (set `MONGO_URI`, `JWT_SECRET`, `JWT_REFRESH_SECRET`, `CLIENT_URL=<your frontend URL>`),
-client on Vercel/Netlify (`VITE_API_URL=<api url>/api`). Webcam needs HTTPS (or localhost).
+- `MONGO_URI`
+- `JWT_SECRET`
+- `JWT_REFRESH_SECRET`
+- `GEMINI_API_KEY`
+- `CLIENT_URL`
+
+**Frontend: Vercel / Netlify**
+
+Configure:
+
+```env
+VITE_API_URL=https://your-backend-url/api
+```
+
+Make sure the backend CORS configuration allows your deployed frontend URL.
+
+Webcam functionality requires HTTPS in production.
+
+## Limitations
+
+- Knowledge mastery estimates depend partly on student self-assessment.
+- Reinforcement learning performance depends on the available study-session data.
+- Webcam-based focus estimation is heuristic-based.
+- Gemini question generation depends on API availability and usage limits.
+- External LMS and calendar integrations are not currently included.
+
+## Future Enhancements
+
+- Advanced AI-based personalized learning recommendations.
+- Improved learning analytics and progress prediction.
+- Integration with external learning management systems.
+- Mobile application support.
+- Enhanced scheduling and recommendation algorithms.
+
+## Author
+
+**Krushnakant Harne**
+
+B.Tech Computer Science and Engineering
+
+GitHub: [@krushnakantharne](https://github.com/krushnakantharne)
+
+---
+
+If you find this project interesting, consider giving the repository a star!
+
+**StudySync AI — Plan Smarter. Focus Better. Learn Faster.**
