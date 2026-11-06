@@ -1,0 +1,23 @@
+import 'dotenv/config';
+import 'express-async-errors';
+import express from 'express';
+import cors from 'cors';
+import { allowedOrigin } from './config/origins.js';
+import authRoutes from './routes/auth.js';
+import activityRoutes from './routes/activity.js';
+import coreRoutes from './routes/core.js';
+import analyticsRoutes from './routes/analytics.js';
+import { auth } from './middleware/auth.js';
+import { errorHandler } from './middleware/error.js';
+
+const app = express();
+app.use(cors({ origin: allowedOrigin }));
+app.use(express.json({ limit: '1mb' }));
+app.get('/api/health', (_req, res) => res.json({ ok: true }));
+app.use('/api/auth', authRoutes);
+app.use('/api/activity', activityRoutes);
+app.use('/api/analytics', auth, analyticsRoutes);
+app.use('/api', auth, coreRoutes);
+app.use((_req, res) => res.status(404).json({ message: 'Not found' }));
+app.use(errorHandler);
+export default app;

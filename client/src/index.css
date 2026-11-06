@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{color-scheme:light}
+body{@apply bg-mist text-ink font-sans antialiased}
+h1,h2,h3{@apply font-display tracking-tight}
+:focus-visible{outline:3px solid #6687ff;outline-offset:3px}
+.btn{@apply inline-flex items-center justify-center rounded-xl bg-teal px-5 py-2.5 text-sm font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-50;box-shadow:0 5px 14px #3155bd1c}
+.btn:hover:not(:disabled){background:#1d3598;transform:translateY(-1px)}
+.btn-ghost{@apply inline-flex items-center justify-center rounded-xl border border-line bg-white px-4 py-2 text-sm font-semibold text-ink transition disabled:cursor-not-allowed disabled:opacity-50}
+.btn-ghost:hover:not(:disabled){border-color:#a5b9e3;background:#edf2ff}
+.btn-danger{@apply inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm font-semibold text-berry transition hover:bg-berry-soft disabled:opacity-50}
+.input{@apply w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:border-teal}
+.input:focus{box-shadow:0 0 0 3px #5475d51a}
+.label{@apply mb-1.5 block text-xs font-bold text-ink/75}
+.app-shell{background:radial-gradient(circle at 95% -20%,#e2e9ff 0,transparent 34%),#f5f7fc}
+.app-sidebar{background:linear-gradient(155deg,#142751 0%,#15234b 53%,#171f41 100%)}
+.brand-mark{position:relative;display:grid;place-items:center;width:43px;height:43px;border-radius:13px;background:linear-gradient(140deg,#6491ff,#4569d4);font-size:26px;font-weight:900;box-shadow:0 7px 18px #050d2966}
+.brand-spark{position:absolute;right:4px;top:3px;font-size:9px;color:#d4f3ff}
+.nav-item{color:#b1bfdb}
+.nav-item:hover{color:#fff;background:#ffffff13}
+.nav-active{color:#fff;background:#5479e03b;box-shadow:inset 3px 0 #80a8ff}
+.sidebar-profile{background:#ffffff0a;border:1px solid #ffffff14}
+.app-header{background:#f9faffdd;border-bottom:1px solid #e5e9f4;backdrop-filter:blur(15px)}
+.hero-banner{background:radial-gradient(circle at 90% 10%,#577be0 0%,transparent 33%),linear-gradient(110deg,#1a316b,#314fb2);color:white;position:relative;overflow:hidden}
+.hero-banner:after{content:"";position:absolute;right:-65px;bottom:-130px;width:270px;height:270px;border:1px solid #ffffff35;border-radius:50%;box-shadow:0 0 0 45px #ffffff0c,0 0 0 90px #ffffff08;pointer-events:none}
+section.rounded-2xl.bg-white, .rounded-2xl.border.border-line.bg-white{box-shadow:0 8px 30px #1c3e790a}
+button, a, input, select{transition:background-color .18s,border-color .18s,color .18s,transform .18s}
+/* Theme keeps existing Tailwind pages intact without changing their business logic. */
+.dark{color-scheme:dark}
+.dark body,.dark .app-shell{background:#111a2e;color:#e9efff}
+.dark .app-header{background:#17233ce8;border-color:#31405e}
+.dark .bg-white{background-color:#1d2b44}
+.dark .bg-mist{background-color:#121d32}
+.dark .bg-teal-soft{background-color:#263b5b}
+.dark .bg-amber-soft{background-color:#3a3125}
+.dark .bg-berry-soft{background-color:#3a2438}
+.dark .text-ink{color:#e9efff}
+.dark .text-ink\/80{color:#c6d3ed}
+.dark .text-ink\/75{color:#c0cce4}
+.dark .text-ink\/70{color:#b7c5de}
+.dark .text-ink\/60{color:#a0aec9}
+.dark .text-ink\/50{color:#8899b6}
+.dark .text-ink\/40{color:#7e91b1}
+.dark .border-line{border-color:#344563}
+.dark .divide-line>:not([hidden])~:not([hidden]){border-color:#344563}
+.dark .input{background:#1d2b44;color:#e9efff;border-color:#344563}
+.dark .btn-ghost:hover{background:#304366}
+.dark .theme-toggle{color:#e9efff}
+.dark .bg-ink{background-color:#12203b}
+.dark .text-teal{color:#93b2ff}
+.dark .hero-banner{background:linear-gradient(120deg,#243b78,#3859b4)}
+@media(max-width:1023px){.app-sidebar{height:auto}.sidebar-links,.sidebar-profile{display:none}.app-sidebar.menu-open .sidebar-links,.app-sidebar.menu-open .sidebar-profile{display:block}.sidebar-links{max-height:65vh}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
